@@ -124,9 +124,7 @@ namespace Gathering_the_Magic.DeckEdit.UI
         private (Stream file, string mimeType) resourceRequested(Url _url)
         {
             if (_url.Path.StartsWith("library"))
-            {
                 return interceptLibrary(_url);
-            }
 
             string decodedPath = WebUtility.UrlDecode(_url.Path);
             string localPath = Path.MakeRooted(Path.Combine(StartUp.WebFolderPath, decodedPath));
@@ -154,7 +152,32 @@ namespace Gathering_the_Magic.DeckEdit.UI
             string decodedPath = WebUtility.UrlDecode(virtualPath);
 
             string localPath = Path.Combine(Config.Current.LibraryFolderPath, decodedPath);
-            if (Directory.Exists(localPath))
+            string fileName = Path.GetFileName(localPath);
+            if (string.Equals(fileName, "listing.txt"))
+            {
+                string listingFolderPath = Path.GetParentDirectory(localPath);
+                StringBuilder sb = new StringBuilder();
+                Queue<string> folderPaths = new Queue<string>();
+                folderPaths.Enqueue(listingFolderPath);
+                while (folderPaths.Count > 0)
+                {
+                    string folderPath = folderPaths.Dequeue();
+                    foreach (string subfolderPath in Directory.GetDirectories(folderPath, false))
+                    {
+                        sb.AppendLine("library/" + Path.MakeRelative(Config.Current.LibraryFolderPath, subfolderPath).Replace("\\", "/") + "/");
+                        folderPaths.Enqueue(subfolderPath);
+                    }
+                    foreach (string filePath in Directory.GetFiles(folderPath, false))
+                        sb.AppendLine("library/" + Path.MakeRelative(Config.Current.LibraryFolderPath, filePath).Replace("\\", "/"));
+                }
+
+                MemoryStream mem = new MemoryStream();
+                using (StreamWriter sw = new StreamWriter(mem, leaveOpen: true))
+                    sw.Write(sb.ToString());
+                mem.Position = 0;
+                return (mem, "text/plain");
+            }
+            else if (Directory.Exists(localPath))
             {
                 string html = createDirectoryListing(localPath);
                 MemoryStream mem = new MemoryStream();
