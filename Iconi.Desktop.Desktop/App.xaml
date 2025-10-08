@@ -1,0 +1,22 @@
+﻿<Application
+    x:Class="Gathering_the_Magic.DeckEdit.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:celestial.controls="clr-namespace:Celestial.Controls;assembly=Celestial"
+    xmlns:celestial.themes="clr-namespace:Celestial.Themes;assembly=Celestial"
+    xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    StartupUri="UI/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--  MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive!  -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <!--  Theme setting  -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Violet.xaml" />
+
+                <celestial.themes:CelestialTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

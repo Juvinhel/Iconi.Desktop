@@ -1,0 +1,53 @@
+﻿<celestial.controls:AdornerDialog
+    x:Class="Gathering_the_Magic.DeckEdit.UI.UpdateSplash"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:celestial.components="clr-namespace:Celestial.Components;assembly=Celestial"
+    xmlns:celestial.controls="clr-namespace:Celestial.Controls;assembly=Celestial"
+    xmlns:celestial.converter="clr-namespace:Celestial.Converter;assembly=Celestial"
+    xmlns:celestial.markup="clr-namespace:Celestial.Markup;assembly=Celestial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{StaticResource Celestial.Brushes.Background}"
+    Loaded="updateSplash_Loaded"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Vertical">
+            <TextBlock
+                x:Name="titleTextBlock"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                FontSize="14"
+                FontWeight="Bold" />
+            <TextBlock
+                x:Name="oldVersionTextBlock"
+                HorizontalAlignment="Center"
+                Foreground="LightGray" />
+            <TextBlock
+                x:Name="newVersionTextBlock"
+                HorizontalAlignment="Center"
+                Foreground="LightGray" />
+        </StackPanel>
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                x:Name="progressTextBlock"
+                Margin="2"
+                HorizontalAlignment="Center" />
+            <mahapps:MetroProgressBar
+                x:Name="progressBar"
+                Height="24"
+                Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </StackPanel>
+    </Grid>
+</celestial.controls:AdornerDialog>

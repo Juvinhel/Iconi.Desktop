@@ -1,0 +1,54 @@
+<mahapps:MetroWindow
+    x:Class="Gathering_the_Magic.DeckEdit.UI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:celestial.components="clr-namespace:Celestial.Components;assembly=Celestial"
+    xmlns:celestial.controls="clr-namespace:Celestial.Controls;assembly=Celestial"
+    xmlns:celestial.converter="clr-namespace:Celestial.Converter;assembly=Celestial"
+    xmlns:celestial.markup="clr-namespace:Celestial.Markup;assembly=Celestial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:Gathering_the_Magic.DeckEdit.UI"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    x:Name="mainWindow"
+    Title="Iconi.Desktop.DataUpdate"
+    Width="1160"
+    Height="780"
+    GlowBrush="{StaticResource MahApps.Brushes.Accent}"
+    Icon="Images/favicon.png"
+    Loaded="mainWindow_Loaded"
+    mc:Ignorable="d">
+    <mahapps:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <DockPanel
+                Margin="2"
+                VerticalAlignment="Center"
+                LastChildFill="False">
+                <TextBlock
+                    x:Name="titleTextBlock"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Text="Iconi.Desktop.Desktop" />
+                <TextBlock DockPanel.Dock="Left" Text=" " />
+                <TextBlock
+                    x:Name="openFileTextBlock"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Left"
+                    FontSize="18"
+                    Foreground="White"
+                    Text="" />
+            </DockPanel>
+        </DataTemplate>
+    </mahapps:MetroWindow.TitleTemplate>
+    <mahapps:MetroWindow.RightWindowCommands>
+        <mahapps:WindowCommands ShowLastSeparator="False" ShowSeparators="False">
+            <celestial.components:ErrorWindowButton />
+        </mahapps:WindowCommands>
+    </mahapps:MetroWindow.RightWindowCommands>
+    <Grid x:Name="mainGrid">
+        <wv2:WebView2 x:Name="webView" />
+    </Grid>
+</mahapps:MetroWindow>

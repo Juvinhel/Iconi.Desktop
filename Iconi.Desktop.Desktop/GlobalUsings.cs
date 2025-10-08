@@ -1,0 +1,17 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Text.RegularExpressions;
+global using System.Threading.Tasks;
+global using Lemon.Text;
+global using Lemon.Linq;
+global using Lemon.Collections;
+global using Lemon.Math;
+global using Lemon.IO;
+global using Stream = System.IO.Stream;
+global using StreamReader = System.IO.StreamReader;
+global using StreamWriter = System.IO.StreamWriter;
+global using MemoryStream = System.IO.MemoryStream;
+global using FileStream = System.IO.FileStream;
+global using FileInfo = System.IO.FileInfo;
