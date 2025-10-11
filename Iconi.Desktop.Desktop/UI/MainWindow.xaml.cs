@@ -32,13 +32,13 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
             Delay.Start(10, () =>
             {
-                if (!Debugger.IsAttached)
+                //if (!Debugger.IsAttached)
                 {
                     StartupDialog startupDialog = new StartupDialog();
                     startupDialog.Show();
                 } 
-                else
-                    MainWindow.Current.Start();
+                //else
+                //    MainWindow.Current.Start();
             });
         }
 
@@ -163,11 +163,8 @@ namespace Gathering_the_Magic.DeckEdit.UI
                 {
                     string folderPath = folderPaths.Dequeue();
                     foreach (string subfolderPath in Directory.GetDirectories(folderPath, false))
-                    {
-                        sb.AppendLine("library/" + Path.MakeRelative(Config.Current.LibraryFolderPath, subfolderPath).Replace("\\", "/") + "/");
                         folderPaths.Enqueue(subfolderPath);
-                    }
-                    foreach (string filePath in Directory.GetFiles(folderPath, false))
+                    foreach (string filePath in Directory.GetFiles(folderPath, false, "svg"))
                         sb.AppendLine("library/" + Path.MakeRelative(Config.Current.LibraryFolderPath, filePath).Replace("\\", "/"));
                 }
 

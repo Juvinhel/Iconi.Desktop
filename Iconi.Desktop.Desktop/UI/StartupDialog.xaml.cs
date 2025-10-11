@@ -13,8 +13,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Celestial.Components;
 using Gathering_the_Magic.DeckEdit.Data;
+using Gathering_the_Magic.DeckEdit.Data.Library;
+using Lemon.Error;
+using Lemon.Model;
+using Newtonsoft.Json;
 
 namespace Gathering_the_Magic.DeckEdit.UI
 {
@@ -34,6 +38,9 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
         private async void startupDialog_Loaded(object _sender, RoutedEventArgs _e)
         {
+            libraryFolderHeader.FolderPath = Config.Current.LibraryFolderPath;
+
+            /*
             #region check core
             Version currentCoreVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             ReleaseInfo latestCoreRelease = await Github.GetLatestRelease("Juvinhel", "Iconi.Desktop");
@@ -72,6 +79,7 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
             if (localVersion == latestRelease.Version)
                 startUpdateTextBlock.Text = "Repair App";
+            */
         }
 
         private void startupDialog_Closing(object _sender, RoutedEventArgs _e)
@@ -94,6 +102,52 @@ namespace Gathering_the_Magic.DeckEdit.UI
         {
             MainWindow.Current.Start();
             Close();
+        }
+
+        private void libraryFolderHeader_FolderPathChanged(InputFolderHeader _arg1, string _arg2)
+        {
+            if (Directory.Exists(libraryFolderHeader.FolderPath))
+            {
+                string libraryFilePath = Path.Combine(libraryFolderHeader.FolderPath, "library.json");
+                bool hasLibraryFile = Lemon.IO.File.Exists(libraryFilePath);
+                noLibraryFileTextBlock.Visibility = hasLibraryFile ? Visibility.Hidden : Visibility.Visible;
+
+                updateLibraryButton.IsEnabled = true;
+                startButton.IsEnabled = hasLibraryFile;
+            }
+            else
+            {
+                updateLibraryButton.IsEnabled = false;
+                startButton.IsEnabled = false;
+            }
+        }
+
+        private async void updateLibraryButton_Click(object _sender, RoutedEventArgs _e)
+        {
+            updateLibraryButton.IsEnabled = false;
+            startButton.IsEnabled = false;
+
+            Library library = new Library();
+            ProgressJob scanJob = library.Scan(libraryFolderHeader.FolderPath);
+            ProgressDialog progressDialog = new ProgressDialog("Scanning Library", scanJob);
+
+            string libraryFilePath = Path.Combine(libraryFolderHeader.FolderPath, "library.json");
+            scanJob.Succeeded += (sender) =>
+            {
+                string json = JsonConvert.SerializeObject(library, Formatting.Indented);
+                Lemon.IO.File.WriteAllText(libraryFilePath, json);
+            };
+            scanJob.Finished += (sender, succeeded) =>
+            {
+                libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath);
+            };
+            scanJob.ErrorOccurred += (sender, ex) =>
+            {
+                ErrorHandler.Handle(ex);
+                MessageBox.Show(ex.Message, ex.GetType().FullName);
+            };
+
+            await scanJob.RunAwaitable();
         }
     }
 }
