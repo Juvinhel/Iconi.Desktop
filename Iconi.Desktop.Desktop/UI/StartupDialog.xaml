@@ -55,7 +55,6 @@
         <Grid Grid.Row="2" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <celestial.components:InputFolderHeader
@@ -64,15 +63,7 @@
                 Grid.Row="0"
                 Padding="0"
                 Background="Transparent"
-                FolderPathChanged="libraryFolderHeader_FolderPathChanged"
                 SharedSizeGroup="A" />
-            <TextBlock
-                x:Name="noLibraryFileTextBlock"
-                Grid.Row="1"
-                Padding="2"
-                Foreground="Red"
-                Text="Folder does not contain a library.json"
-                Visibility="Hidden" />
         </Grid>
 
         <UniformGrid
@@ -81,19 +72,11 @@
             VerticalAlignment="Bottom"
             Rows="1">
             <Button
-                x:Name="updateLibraryButton"
-                Grid.Row="1000"
-                Click="updateLibraryButton_Click"
-                Content="Update Library"
-                FontSize="16"
-                IsEnabled="False" />
-            <Button
                 x:Name="startButton"
                 Grid.Row="1000"
                 Click="startButton_Click"
                 Content="Start"
-                FontSize="16"
-                IsEnabled="False" />
+                FontSize="16" />
         </UniformGrid>
     </Grid>
 </celestial.controls:AdornerDialog>
