@@ -15,7 +15,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Celestial.Components;
 using Gathering_the_Magic.DeckEdit.Data;
-using Gathering_the_Magic.DeckEdit.Data.Library;
 using Gathering_the_Magic.DeckEdit.Data.Listing;
 using Lemon.Error;
 using Lemon.Model;
@@ -41,7 +40,6 @@ namespace Gathering_the_Magic.DeckEdit.UI
         {
             libraryFolderHeader.FolderPath = Config.Current.LibraryFolderPath;
 
-            /*
             #region check core
             Version currentCoreVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             ReleaseInfo latestCoreRelease = await Github.GetLatestRelease("Juvinhel", "Iconi.Desktop");
@@ -80,7 +78,6 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
             if (localVersion == latestRelease.Version)
                 startUpdateTextBlock.Text = "Repair App";
-            */
         }
 
         private void startupDialog_Closing(object _sender, RoutedEventArgs _e)
@@ -108,7 +105,7 @@ namespace Gathering_the_Magic.DeckEdit.UI
         private void libraryFolderHeader_FolderPathChanged(InputFolderHeader _, string _folderPath)
         {
             string listingFilePath = Path.Combine(_folderPath, "listing.txt");
-            listingFileNotFoundTextBlock.Visibility = Lemon.IO.File.Exists(listingFilePath) ? Visibility.Collapsed : Visibility.Visible;
+            listingFileNotFoundTextBlock.Visibility = File.Exists(listingFilePath) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void createListingButton_Click(object _sender, RoutedEventArgs _e)
@@ -120,7 +117,7 @@ namespace Gathering_the_Magic.DeckEdit.UI
             scanJob.Succeeded += (sender) =>
             {
                 string listingFilePath = Path.Combine(libraryFolderHeader.FolderPath, "listing.txt");
-                Lemon.IO.File.WriteAllLines(listingFilePath, listing.Files);
+                File.WriteAllLines(listingFilePath, listing.Files);
                 libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath); 
             };
             scanJob.ErrorOccurred += (sender, exception) =>
