@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using Celestial.Components;
 using Gathering_the_Magic.DeckEdit.Data;
 using Gathering_the_Magic.DeckEdit.Data.Library;
+using Gathering_the_Magic.DeckEdit.Data.Listing;
 using Lemon.Error;
 using Lemon.Model;
 using Newtonsoft.Json;
@@ -102,6 +103,32 @@ namespace Gathering_the_Magic.DeckEdit.UI
         {
             MainWindow.Current.Start();
             Close();
+        }
+
+        private void libraryFolderHeader_FolderPathChanged(InputFolderHeader _, string _folderPath)
+        {
+            string listingFilePath = Path.Combine(_folderPath, "listing.txt");
+            listingFileNotFoundTextBlock.Visibility = Lemon.IO.File.Exists(listingFilePath) ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void createListingButton_Click(object _sender, RoutedEventArgs _e)
+        {
+            Listing listing = new Listing();
+            ProgressJob scanJob = listing.Scan(libraryFolderHeader.FolderPath);
+            ProgressDialog progressDialog = new ProgressDialog("Creating Listing", scanJob);
+
+            scanJob.Succeeded += (sender) =>
+            {
+                string listingFilePath = Path.Combine(libraryFolderHeader.FolderPath, "listing.txt");
+                Lemon.IO.File.WriteAllLines(listingFilePath, listing.Files);
+                libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath); 
+            };
+            scanJob.ErrorOccurred += (sender, exception) =>
+            {
+                ErrorHandler.Handle(exception);
+                MessageBox.Show(exception.Message, exception.GetType().FullName);
+            };
+            scanJob.RunAwaitable();
         }
     }
 }

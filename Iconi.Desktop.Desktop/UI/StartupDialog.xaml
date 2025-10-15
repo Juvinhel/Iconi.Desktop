@@ -55,6 +55,7 @@
         <Grid Grid.Row="2" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <celestial.components:InputFolderHeader
@@ -63,7 +64,15 @@
                 Grid.Row="0"
                 Padding="0"
                 Background="Transparent"
+                FolderPathChanged="libraryFolderHeader_FolderPathChanged"
                 SharedSizeGroup="A" />
+
+            <TextBlock
+                x:Name="listingFileNotFoundTextBlock"
+                Grid.Row="1"
+                Foreground="Red"
+                Text="No listing file in Folder (app startup might be slow)."
+                Visibility="Collapsed" />
         </Grid>
 
         <UniformGrid
@@ -71,6 +80,12 @@
             Grid.Row="3"
             VerticalAlignment="Bottom"
             Rows="1">
+            <Button
+                x:Name="createListingButton"
+                Grid.Row="1000"
+                Click="createListingButton_Click"
+                Content="Create Listing"
+                FontSize="16" />
             <Button
                 x:Name="startButton"
                 Grid.Row="1000"
