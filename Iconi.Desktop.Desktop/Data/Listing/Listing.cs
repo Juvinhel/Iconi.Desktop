@@ -26,7 +26,7 @@ namespace Gathering_the_Magic.DeckEdit.Data.Listing
                     foreach (string subfolderPath in Directory.GetDirectories(folderPath, false))
                         folderPaths.Enqueue(subfolderPath);
                     foreach (string filePath in Directory.GetFiles(folderPath, false, "svg"))
-                        files.Add("library/" + Path.MakeRelative(Config.Current.LibraryFolderPath, filePath).Replace("\\", "/"));
+                        files.Add("library/" + UrlEncoder.PathEncoder.Encode(Path.MakeRelative(_rootFolderPath, filePath)));
                 }
                 p.Done = p.Total;
             });

@@ -32,13 +32,8 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
             Delay.Start(10, () =>
             {
-                if (!Debugger.IsAttached)
-                {
-                    StartupDialog startupDialog = new StartupDialog();
-                    startupDialog.Show();
-                } 
-                else
-                    MainWindow.Current.Start();
+                StartupDialog startupDialog = new StartupDialog();
+                startupDialog.Show();
             });
         }
 
@@ -69,7 +64,7 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
             webView.CoreWebView2.NewWindowRequested += coreWebView2_NewWindowRequested;
 
-            string page = "";
+            string page = "index.html";
 
             if (Debugger.IsAttached)
             {

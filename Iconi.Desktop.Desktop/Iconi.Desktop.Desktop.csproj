@@ -22,8 +22,8 @@
         <BeautyEnableDebugging>False</BeautyEnableDebugging>
         <BeautyUsePatch>True</BeautyUsePatch>
         <BeautyLogLevel>Info</BeautyLogLevel>
-        <AssemblyVersion>0.0.1.0</AssemblyVersion>
-        <FileVersion>0.0.1.0</FileVersion>
+        <AssemblyVersion>0.0.2.0</AssemblyVersion>
+        <FileVersion>0.0.2.0</FileVersion>
     </PropertyGroup>
 
   <ItemGroup>
@@ -40,14 +40,14 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.8.1" />
-    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.9" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3405.78" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.9.1" />
+    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.12" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.11" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3537.50" />
     <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="nulastudio.NetBeauty" Version="2.1.5" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.12.0.2" />
   </ItemGroup>
 
