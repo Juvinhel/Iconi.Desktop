@@ -22,6 +22,8 @@ namespace Gathering_the_Magic.DeckEdit
                 Directory.Create(WebFolderPath);
                 VersionFilePath = Path.Combine(WebFolderPath, "version.txt");
                 ReleaseNotesFilePath = Path.Combine(WebFolderPath, "release-notes.txt");
+                CacheFolderPath = Path.MakeRooted(Path.Combine(Program.MyFolderPath, "cache"));
+                Directory.Create(CacheFolderPath);
 
                 Config.Load();
 
@@ -30,6 +32,8 @@ namespace Gathering_the_Magic.DeckEdit
                 app.Run();
 
                 Config.Save();
+
+                Directory.Clear(CacheFolderPath);
             }
             catch (Exception ex)
             {
@@ -41,5 +45,6 @@ namespace Gathering_the_Magic.DeckEdit
         static public string WebFolderPath { get; private set; }
         static public string VersionFilePath { get; private set; }
         static public string ReleaseNotesFilePath { get; private set; }
+        static public string CacheFolderPath { get; private set; }
     }
 }

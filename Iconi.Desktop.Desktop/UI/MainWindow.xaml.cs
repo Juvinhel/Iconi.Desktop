@@ -63,6 +63,7 @@ namespace Gathering_the_Magic.DeckEdit.UI
             await webView.EnsureCoreWebView2Async(cwv2Environment);
 
             webView.CoreWebView2.NewWindowRequested += coreWebView2_NewWindowRequested;
+            webView.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 
             string page = "index.html";
 
