@@ -25,6 +25,8 @@ namespace Gathering_the_Magic.DeckEdit
                 CacheFolderPath = Path.MakeRooted(Path.Combine(Program.MyFolderPath, "cache"));
                 Directory.Create(CacheFolderPath);
 
+                InkScapePath = Program.Find("inkscape", "InkScape");
+
                 Config.Load();
 
                 App app = new App();
@@ -46,5 +48,7 @@ namespace Gathering_the_Magic.DeckEdit
         static public string VersionFilePath { get; private set; }
         static public string ReleaseNotesFilePath { get; private set; }
         static public string CacheFolderPath { get; private set; }
+
+        static public string InkScapePath { get; private set; } = @"[MEGA]:\Dev Apps\InkScape\inkscape.bat";
     }
 }
