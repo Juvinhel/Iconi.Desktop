@@ -14,13 +14,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Celestial.Components;
-using Gathering_the_Magic.DeckEdit.Data;
-using Gathering_the_Magic.DeckEdit.Data.Listing;
+using Iconi.Desktop.Data;
 using Lemon.Error;
 using Lemon.Model;
+using Lemon.Threading;
 using Newtonsoft.Json;
+using SVGColorExtractor.UI;
+using Builder = Iconi.Desktop.Data.Library.Builder;
 
-namespace Gathering_the_Magic.DeckEdit.UI
+namespace Iconi.Desktop.UI
 {
     /// <summary>
     /// Interaktionslogik für ConfigDialog.xaml
@@ -104,28 +106,45 @@ namespace Gathering_the_Magic.DeckEdit.UI
 
         private void libraryFolderHeader_FolderPathChanged(InputFolderHeader _, string _folderPath)
         {
-            string listingFilePath = Path.Combine(_folderPath, "listing.txt");
-            listingFileNotFoundTextBlock.Visibility = File.Exists(listingFilePath) ? Visibility.Collapsed : Visibility.Visible;
+            string libraryFilePath = Path.Combine(_folderPath, "library.json");
+            libraryFileNotFoundTextBlock.Visibility = File.Exists(libraryFilePath) ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private void createListingButton_Click(object _sender, RoutedEventArgs _e)
-        {
-            Listing listing = new Listing();
-            ProgressJob scanJob = listing.Scan(libraryFolderHeader.FolderPath);
-            ProgressDialog progressDialog = new ProgressDialog("Creating Listing", scanJob);
+        //private void createListingButton_Click(object _sender, RoutedEventArgs _e)
+        //{
+        //    Listing listing = new Listing();
+        //    ProgressJob scanJob = listing.Scan(libraryFolderHeader.FolderPath);
+        //    ProgressDialog progressDialog = new ProgressDialog("Creating Listing", scanJob);
+        //    
+        //    scanJob.Succeeded += (sender) =>
+        //    {
+        //        string listingFilePath = Path.Combine(libraryFolderHeader.FolderPath, "listing.txt");
+        //        File.WriteAllLines(listingFilePath, listing.Files);
+        //        libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath);
+        //    };
+        //    scanJob.ErrorOccurred += (sender, exception) =>
+        //    {
+        //        ErrorHandler.Handle(exception);
+        //        MessageBox.Show(exception.Message, exception.GetType().FullName);
+        //    };
+        //    scanJob.RunAwaitable();
+        //}
 
-            scanJob.Succeeded += (sender) =>
+        private void createLibraryButton_Click(object _sender, RoutedEventArgs _e)
+        {   
+            Builder  builder = new Builder(libraryFolderHeader.FolderPath, true, 2);
+            ProgressJob buildJob = builder.Run();
+            ProgressDialog progressDialog = new ProgressDialog("Building Library", buildJob);
+            buildJob.Succeeded += (sender) =>
             {
-                string listingFilePath = Path.Combine(libraryFolderHeader.FolderPath, "listing.txt");
-                File.WriteAllLines(listingFilePath, listing.Files);
-                libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath); 
+                libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath);
             };
-            scanJob.ErrorOccurred += (sender, exception) =>
+            buildJob.ErrorOccurred += (sender, exception) =>
             {
                 ErrorHandler.Handle(exception);
                 MessageBox.Show(exception.Message, exception.GetType().FullName);
             };
-            scanJob.RunAwaitable();
+            buildJob.RunAwaitable();
         }
     }
 }

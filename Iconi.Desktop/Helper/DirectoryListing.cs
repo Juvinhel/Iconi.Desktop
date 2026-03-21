@@ -7,7 +7,7 @@
 //     der Code neu generiert wird.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Gathering_the_Magic.DeckEdit.Helper
+namespace Iconi.Desktop.Helper
 {
     using System.Linq;
     using System.Text;
@@ -20,7 +20,7 @@ namespace Gathering_the_Magic.DeckEdit.Helper
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+    #line 1 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class DirectoryListing : DirectoryListingBase
     {
@@ -145,119 +145,119 @@ namespace Gathering_the_Magic.DeckEdit.Helper
                     "\n  </head>\r\n  <body class=\"directory\">\r\n    <div id=\"wrapper\">\r\n      <h1><a hre" +
                     "f=\"");
             
-            #line 288 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 288 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Parent.path));
             
             #line default
             #line hidden
             this.Write("\" class=\"icon icon-directory\" title=\"");
             
-            #line 288 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 288 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Parent.name));
             
             #line default
             #line hidden
             this.Write("\">~</a>");
             
-            #line 288 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 288 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Parent.name));
             
             #line default
             #line hidden
             this.Write("</h1>\r\n      <ul id=\"files\" class=\"view-tiles\">\r\n      ");
             
-            #line 290 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 290 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
  foreach(var folder in Folders) { 
             
             #line default
             #line hidden
             this.Write("         <li><a href=\"");
             
-            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(folder.path));
             
             #line default
             #line hidden
             this.Write("\" class=\"icon icon-directory\" title=\"");
             
-            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(folder.name));
             
             #line default
             #line hidden
             this.Write("\"><span class=\"name\">");
             
-            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(folder.name));
             
             #line default
             #line hidden
             this.Write("</span>");
             
-            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(folder.size));
             
             #line default
             #line hidden
             this.Write("<span class=\"size\"></span><span class=\"date\">");
             
-            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 291 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(folder.lastWriteTime.ToString("o")));
             
             #line default
             #line hidden
             this.Write("</span></a></li>\r\n      ");
             
-            #line 292 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 292 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
  } 
             
             #line default
             #line hidden
             this.Write("      ");
             
-            #line 293 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 293 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
  foreach(var file in Files) { 
             
             #line default
             #line hidden
             this.Write("        <li><a href=\"");
             
-            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(file.path));
             
             #line default
             #line hidden
             this.Write("\" class=\"icon\" title=\"");
             
-            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(file.name));
             
             #line default
             #line hidden
             this.Write("\"><span class=\"name\">");
             
-            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(file.name));
             
             #line default
             #line hidden
             this.Write("</span><span class=\"size\">");
             
-            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(file.size));
             
             #line default
             #line hidden
             this.Write("</span><span class=\"date\">");
             
-            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 294 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(file.lastWriteTime.ToString("o")));
             
             #line default
             #line hidden
             this.Write("</span></a></li>\r\n      ");
             
-            #line 295 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop.Desktop\Helper\DirectoryListing.tt"
+            #line 295 "D:\Komachi\Development\Iconi.Desktop\Iconi.Desktop\Helper\DirectoryListing.tt"
  } 
             
             #line default

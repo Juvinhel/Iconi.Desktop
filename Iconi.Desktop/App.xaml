@@ -1,5 +1,5 @@
 ﻿<Application
-    x:Class="Gathering_the_Magic.DeckEdit.App"
+    x:Class="Iconi.Desktop.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:celestial.controls="clr-namespace:Celestial.Controls;assembly=Celestial"

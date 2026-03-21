@@ -1,11 +1,11 @@
 ﻿<celestial.controls:AdornerDialog
-    x:Class="Gathering_the_Magic.DeckEdit.UI.StartupDialog"
+    x:Class="Iconi.Desktop.UI.StartupDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:celestial.components="clr-namespace:Celestial.Components;assembly=Celestial"
     xmlns:celestial.controls="clr-namespace:Celestial.Controls;assembly=Celestial"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Gathering_the_Magic.DeckEdit.UI"
+    xmlns:local="clr-namespace:Iconi.Desktop.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Padding="20"
     d:DesignHeight="450"
@@ -68,10 +68,10 @@
                 SharedSizeGroup="A" />
 
             <TextBlock
-                x:Name="listingFileNotFoundTextBlock"
+                x:Name="libraryFileNotFoundTextBlock"
                 Grid.Row="1"
                 Foreground="Red"
-                Text="No listing file in Folder (app startup might be slow)."
+                Text="No library file in Folder (app startup might be slow)."
                 Visibility="Collapsed" />
         </Grid>
 
@@ -81,10 +81,10 @@
             VerticalAlignment="Bottom"
             Rows="1">
             <Button
-                x:Name="createListingButton"
+                x:Name="createLibraryButton"
                 Grid.Row="1000"
-                Click="createListingButton_Click"
-                Content="Create Listing"
+                Click="createLibraryButton_Click"
+                Content="Create Library"
                 FontSize="16" />
             <Button
                 x:Name="startButton"

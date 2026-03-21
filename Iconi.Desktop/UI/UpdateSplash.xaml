@@ -1,5 +1,5 @@
 ﻿<celestial.controls:AdornerDialog
-    x:Class="Gathering_the_Magic.DeckEdit.UI.UpdateSplash"
+    x:Class="Iconi.Desktop.UI.UpdateSplash"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:celestial.components="clr-namespace:Celestial.Components;assembly=Celestial"

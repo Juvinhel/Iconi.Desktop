@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lemon.Model;
 
-namespace Gathering_the_Magic.DeckEdit.Data.Listing
+namespace Iconi.Desktop.Data.Listing
 {
     sealed public class Listing
     {

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>Gathering_the_Magic.DeckEdit</RootNamespace>
+    <RootNamespace>Iconi.Desktop</RootNamespace>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-      <StartupObject>Gathering_the_Magic.DeckEdit.StartUp</StartupObject>
+      <StartupObject>Iconi.Desktop.StartUp</StartupObject>
       <ApplicationIcon>UI\Images\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -40,14 +40,14 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.2" />
-    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.15" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.11.0" />
+    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.18" />
     <PackageReference Include="MahApps.Metro" Version="2.4.11" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3856.49" />
     <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="nulastudio.NetBeauty" Version="2.1.5" />
-    <PackageReference Include="System.Drawing.Common" Version="10.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.5" />
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.12.0.2" />
   </ItemGroup>
 
@@ -57,6 +57,9 @@
     </Reference>
     <Reference Include="Lemon">
       <HintPath>..\..\Lemon\Lemon\bin\Debug\net8.0\Lemon.dll</HintPath>
+    </Reference>
+    <Reference Include="SVGColorExtractor">
+      <HintPath>..\..\Chroma\SVGColorExtractor\bin\Debug\net8.0-windows\SVGColorExtractor.dll</HintPath>
     </Reference>
   </ItemGroup>
 

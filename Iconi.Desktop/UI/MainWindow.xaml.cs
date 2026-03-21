@@ -5,13 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using Celestial;
 using Celestial.Components;
-using Gathering_the_Magic.DeckEdit.Data;
+using Iconi.Desktop.Data;
 using Lemon;
 using Lemon.Text.Matching;
 using Lemon.Threading;
 using Microsoft.Web.WebView2.Core;
 
-namespace Gathering_the_Magic.DeckEdit.UI
+namespace Iconi.Desktop.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

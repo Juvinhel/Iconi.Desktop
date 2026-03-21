@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lemon;
 
-namespace Gathering_the_Magic.DeckEdit.Data
+namespace Iconi.Desktop.Data
 {
     sealed public class Config : ConfigBase
     {

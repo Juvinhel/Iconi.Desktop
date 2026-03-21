@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using CommandLine;
-using Gathering_the_Magic.DeckEdit.Data;
+using Iconi.Desktop.Data;
 using Lemon;
 
-namespace Gathering_the_Magic.DeckEdit
+namespace Iconi.Desktop
 {
     static public class StartUp
     {

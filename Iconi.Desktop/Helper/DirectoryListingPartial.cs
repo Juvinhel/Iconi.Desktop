@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gathering_the_Magic.DeckEdit.Helper
+namespace Iconi.Desktop.Helper
 {
     public partial class DirectoryListing
     {

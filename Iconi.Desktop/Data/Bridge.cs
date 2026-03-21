@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Gathering_the_Magic.DeckEdit.UI;
+using Iconi.Desktop.UI;
 using Lemon.Error;
 using WinCopies.Util.Commands.Primitives;
 
-namespace Gathering_the_Magic.DeckEdit.Data
+namespace Iconi.Desktop.Data
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
