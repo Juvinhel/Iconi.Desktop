@@ -22,8 +22,8 @@
         <BeautyEnableDebugging>False</BeautyEnableDebugging>
         <BeautyUsePatch>True</BeautyUsePatch>
         <BeautyLogLevel>Info</BeautyLogLevel>
-        <AssemblyVersion>1.1.0.0</AssemblyVersion>
-        <FileVersion>1.10.0</FileVersion>
+        <AssemblyVersion>1.2.0.0</AssemblyVersion>
+        <FileVersion>1.2.0.0</FileVersion>
     </PropertyGroup>
 
   <ItemGroup>
