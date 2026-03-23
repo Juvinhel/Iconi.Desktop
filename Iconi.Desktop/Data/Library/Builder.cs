@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageMagick;
+using Lemon.Error;
 using Lemon.Model;
 using Lemon.Threading;
 using Newtonsoft.Json;
@@ -62,34 +63,39 @@ namespace Iconi.Desktop.Data.Library
                 initSVGColorExtractor();
                 p.Total = filePaths.Count;
                 foreach (string filePath in filePaths)
-                {
-                    if (CancellationToken.IsCancellationRequested) break;
-
-                    string fileName = Path.GetFileNameWithoutExtension(filePath);
-                    string extension = Path.GetExtension(filePath);
-                    string path = Path.MakeRelative(RootFolderPath, filePath).Trim("\\").Replace("\\", "/");
-
-                    Folder folder = getOrCreateFolder(folders, path, 1);
-                    if (folder.Files.Any(x => x.Name == fileName && x.Extension == extension))
+                    try
                     {
+                        if (CancellationToken.IsCancellationRequested) break;
+
+                        string fileName = Path.GetFileNameWithoutExtension(filePath);
+                        string extension = Path.GetExtension(filePath);
+                        string path = Path.MakeRelative(RootFolderPath, filePath).Trim("\\").Replace("\\", "/");
+
+                        Folder folder = getOrCreateFolder(folders, path, 1);
+                        if (folder.Files.Any(x => x.Name == fileName && x.Extension == extension))
+                        {
+                            ++p.Done;
+                            continue;
+                        }
+
+                        List<string> tags = parseTags(path).ToList();
+                        Chroma chroma = svgColorExtractorWindow.Analyze(filePath).Await();
+                        if (chroma != Chroma.Unknown) tags.Add(chroma.ToString().ToLower());
+                        tags.Add(extension.ToLower());
+
+                        File file = new File();
+                        file.Url = path;
+                        file.Name = fileName;
+                        file.Extension = extension;
+                        file.Tags.AddRange(tags.Distinct());
+
+                        folder.Files.Add(file);
                         ++p.Done;
-                        continue;
                     }
-
-                    List<string> tags = parseTags(path).ToList();
-                    Chroma chroma = svgColorExtractorWindow.Analyze(filePath).Await();
-                    if (chroma != Chroma.Unknown) tags.Add(chroma.ToString().ToLower());
-                    tags.Add(extension.ToLower());
-
-                    File file = new File();
-                    file.Url = path;
-                    file.Name = fileName;
-                    file.Extension = extension;
-                    file.Tags.AddRange(tags.Distinct());
-
-                    folder.Files.Add(file);
-                    ++p.Done;
-                }
+                    catch (Exception ex)
+                    {
+                        ErrorHandler.Handle(ex, new Dictionary<string, object> { { "Filepath", filePath } });
+                    }
                 svgColorExtractorWindow.Dispatcher.Invoke(() => svgColorExtractorWindow.Close());
 
                 string result = JsonConvert.SerializeObject(folders);
