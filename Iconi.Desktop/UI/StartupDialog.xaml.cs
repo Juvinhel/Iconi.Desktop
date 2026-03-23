@@ -131,10 +131,11 @@ namespace Iconi.Desktop.UI
         //}
 
         private void createLibraryButton_Click(object _sender, RoutedEventArgs _e)
-        {   
-            Builder  builder = new Builder(libraryFolderHeader.FolderPath, true, 2);
+        {
+            CancellationTokenSource cancellationToken = new CancellationTokenSource();
+            Builder  builder = new Builder(libraryFolderHeader.FolderPath, true, 2, cancellationToken.Token);
             ProgressJob buildJob = builder.Run();
-            ProgressDialog progressDialog = new ProgressDialog("Building Library", buildJob);
+            ProgressDialog progressDialog = new ProgressDialog("Building Library", buildJob, cancellationToken);
             buildJob.Succeeded += (sender) =>
             {
                 libraryFolderHeader_FolderPathChanged(libraryFolderHeader, libraryFolderHeader.FolderPath);
