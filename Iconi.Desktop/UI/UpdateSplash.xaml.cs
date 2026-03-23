@@ -79,6 +79,7 @@ namespace Iconi.Desktop.UI
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
                 if (entry.FullName.EndsWith("/")) continue;
+                if (entry.FullName == "config.json") continue; // skip config file
 
                 string filePath = Path.Combine(StartUp.WebFolderPath, entry.FullName);
                 using (Stream fs = File.OpenCreate(filePath))

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ImageMagick;
 using Lemon.Error;
 using Lemon.Model;
+using Lemon.Text;
 using Lemon.Threading;
 using Newtonsoft.Json;
 using SVGColorExtractor.Data;
@@ -14,10 +15,12 @@ namespace Iconi.Desktop.Data.Library
 {
     sealed public class Builder
     {
-        public Builder(string _rootFolderPath, bool _update, int _depth, CancellationToken _cancellationToken = default)
+        public Builder(string _rootFolderPath, bool _update, IEnumerable<Regex> _folderExclusions, IEnumerable<Regex> _tagExclusions, int _depth, CancellationToken _cancellationToken = default)
         {
             RootFolderPath = _rootFolderPath;
             Update = _update;
+            FolderExclusions = _folderExclusions.ToList().AsReadOnly();
+            TagExclusions = _tagExclusions.ToList().AsReadOnly();   
             Depth = _depth;
             CancellationToken = _cancellationToken;
         }
@@ -42,7 +45,11 @@ namespace Iconi.Desktop.Data.Library
 
         public string RootFolderPath { get; private set; }
         public bool Update { get; private set; }
+
+        public IReadOnlyList<Regex> FolderExclusions { get; private set; }
+        public IReadOnlyList<Regex> TagExclusions { get; private set; } 
         public int Depth { get; private set; }
+
         public CancellationToken CancellationToken { get; private set; }
 
         private SVGColorExtractor.UI.MainWindow svgColorExtractorWindow;
@@ -67,29 +74,7 @@ namespace Iconi.Desktop.Data.Library
                     {
                         if (CancellationToken.IsCancellationRequested) break;
 
-                        string fileName = Path.GetFileNameWithoutExtension(filePath);
-                        string extension = Path.GetExtension(filePath);
-                        string path = Path.MakeRelative(RootFolderPath, filePath).Trim("\\").Replace("\\", "/");
-
-                        Folder folder = getOrCreateFolder(folders, path, 1);
-                        if (folder.Files.Any(x => x.Name == fileName && x.Extension == extension))
-                        {
-                            ++p.Done;
-                            continue;
-                        }
-
-                        List<string> tags = parseTags(path).ToList();
-                        Chroma chroma = svgColorExtractorWindow.Analyze(filePath).Await();
-                        if (chroma != Chroma.Unknown) tags.Add(chroma.ToString().ToLower());
-                        tags.Add(extension.ToLower());
-
-                        File file = new File();
-                        file.Url = path;
-                        file.Name = fileName;
-                        file.Extension = extension;
-                        file.Tags.AddRange(tags.Distinct());
-
-                        folder.Files.Add(file);
+                        insertFile(folders, filePath);
                         ++p.Done;
                     }
                     catch (Exception ex)
@@ -101,6 +86,47 @@ namespace Iconi.Desktop.Data.Library
                 string result = JsonConvert.SerializeObject(folders);
                 Lemon.IO.File.WriteAllText(libraryFilePath, result);
             });
+        }
+
+        private void insertFile(IList<Folder> _folders, string _filePath)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(_filePath);
+            string extension = Path.GetExtension(_filePath);
+            string path = Path.MakeRelative(RootFolderPath, _filePath).Trim("\\").Replace("\\", "/");
+            string url = path + "/" + fileName + "." + extension;
+            extension = extension.ToLower();
+            path = removePathExclusions(path);
+
+            if (string.IsNullOrEmpty(path)) return; // exclude files in root
+            if (extension != "svg") return; // exclude non-svg files
+
+            Folder folder = getOrCreateFolder(_folders, path, 1);
+            if (folder.Files.Any(x => x.Name == fileName && x.Extension == extension))
+                return; // file already exists, skip
+
+            List<string> tags = parseTags(path + "/" + fileName).ToList();
+            Chroma chroma = svgColorExtractorWindow.Analyze(_filePath).Await();
+            if (chroma != Chroma.Unknown) tags.Add(chroma.ToString().ToLower());
+            tags.Add(extension);
+
+            File file = new File();
+            file.Url = url;
+            file.Name = fileName;
+            file.Extension = extension;
+            file.Tags.AddRange(tags.Distinct());
+
+            folder.Files.Add(file);
+        }
+
+        private string removePathExclusions(string _path)
+        {
+            string ret = string.Empty;
+            foreach(string part in _path.Split("/"))
+            {
+                if (FolderExclusions.Any(x => x.IsMatch(part))) continue;
+                ret += part + "/";
+            }
+            return ret;
         }
 
         private Folder getOrCreateFolder(IList<Folder> _folders, string _path, int _depth)
@@ -120,7 +146,8 @@ namespace Iconi.Desktop.Data.Library
 
         private IEnumerable<string> parseTags(string _path)
         {
-            return _path.SplitLast(".").first.Split("/", "-").Select(x => refineTag(x)).Where(x => !checkExclusion(x)).Distinct();
+            return _path.SplitLast(".").first.Split("/", "-").Select(x => refineTag(x)).
+                Where(tag => !TagExclusions.Any(exclusion => exclusion.IsMatch(tag)));
         }
 
         private string refineTag(string _tag)
@@ -130,12 +157,6 @@ namespace Iconi.Desktop.Data.Library
             _tag = _tag.Replace("_", " ");
             while (_tag.Contains("  ")) _tag = _tag.Replace("  ", " ");
             return _tag;
-        }
-
-        private bool checkExclusion(string _tag)
-        {
-            if (Regex.IsMatch(_tag, "^[0-9]{5,}$")) return true;
-            return false;
         }
     }
 }

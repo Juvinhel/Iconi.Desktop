@@ -66,7 +66,6 @@ namespace Iconi.Desktop.UI
             webView.CoreWebView2.AddHostObjectToScript("bridge", new Bridge());
 
             string page = "index.html";
-
             if (Debugger.IsAttached)
             {
                 webView.CoreWebView2.AddWebResourceRequestedFilter("http://localhost:5424/library/*", CoreWebView2WebResourceContext.All, CoreWebView2WebResourceRequestSourceKinds.All);
@@ -75,7 +74,7 @@ namespace Iconi.Desktop.UI
             }
             else
             {
-                webView.CoreWebView2.AddWebResourceRequestedFilter("https://web.example/*", CoreWebView2WebResourceContext.All, CoreWebView2WebResourceRequestSourceKinds.All);
+                webView.CoreWebView2.AddWebResourceRequestedFilter(virtualHost + "/*", CoreWebView2WebResourceContext.All, CoreWebView2WebResourceRequestSourceKinds.All);
                 webView.CoreWebView2.WebResourceRequested += coreWebView2_WebResourceRequested;
                 webView.Source = new Uri(virtualHost + "/" + page);
             }
@@ -121,6 +120,16 @@ namespace Iconi.Desktop.UI
         {
             if (_url.Path.StartsWith("library"))
                 return interceptLibrary(_url);
+
+            if(_url.Path == "config.json")
+            {
+                string json = File.Exists(Config.FilePath) ? File.ReadAllText(Config.FilePath) : "{}";
+                MemoryStream mem = new MemoryStream();
+                using (StreamWriter sw = new StreamWriter(mem, leaveOpen: true))
+                    sw.Write(json);
+                mem.Position = 0;
+                return (mem, "application/json");
+            }
 
             string decodedPath = WebUtility.UrlDecode(_url.Path);
             string localPath = Path.MakeRooted(Path.Combine(StartUp.WebFolderPath, decodedPath));
