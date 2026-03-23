@@ -15,13 +15,13 @@ namespace Iconi.Desktop.Data.Library
 {
     sealed public class Builder
     {
-        public Builder(string _rootFolderPath, bool _update, IEnumerable<Regex> _folderExclusions, IEnumerable<Regex> _tagExclusions, int _depth, CancellationToken _cancellationToken = default)
+        public Builder(string _rootFolderPath, bool _update, IEnumerable<Regex> _folderExclusions, IEnumerable<Regex> _tagExclusions, int _maxDepth, CancellationToken _cancellationToken = default)
         {
             RootFolderPath = _rootFolderPath;
             Update = _update;
             FolderExclusions = _folderExclusions.ToList().AsReadOnly();
-            TagExclusions = _tagExclusions.ToList().AsReadOnly();   
-            Depth = _depth;
+            TagExclusions = _tagExclusions.ToList().AsReadOnly();
+            MaxDepth = _maxDepth;
             CancellationToken = _cancellationToken;
         }
 
@@ -48,7 +48,7 @@ namespace Iconi.Desktop.Data.Library
 
         public IReadOnlyList<Regex> FolderExclusions { get; private set; }
         public IReadOnlyList<Regex> TagExclusions { get; private set; } 
-        public int Depth { get; private set; }
+        public int MaxDepth { get; private set; }
 
         public CancellationToken CancellationToken { get; private set; }
 
@@ -92,7 +92,7 @@ namespace Iconi.Desktop.Data.Library
         {
             string fileName = Path.GetFileNameWithoutExtension(_filePath);
             string extension = Path.GetExtension(_filePath);
-            string path = Path.MakeRelative(RootFolderPath, _filePath).Trim("\\").Replace("\\", "/");
+            string path = Path.MakeRelative(RootFolderPath, Path.GetParentDirectory(_filePath)).Trim("\\").Replace("\\", "/");
             string url = path + "/" + fileName + "." + extension;
             extension = extension.ToLower();
             path = removePathExclusions(path);
@@ -124,14 +124,22 @@ namespace Iconi.Desktop.Data.Library
             foreach(string part in _path.Split("/"))
             {
                 if (FolderExclusions.Any(x => x.IsMatch(part))) continue;
-                ret += part + "/";
+                ret += (ret.Length > 0 ? "/" : "") + part;
             }
             return ret;
         }
 
         private Folder getOrCreateFolder(IList<Folder> _folders, string _path, int _depth)
         {
-            (string current, string remaining) = _path.SplitFirst("/");
+            string current; string remaining;
+            if (MaxDepth > 0 && _depth >= MaxDepth)
+            {
+                current = _path;
+                remaining = null;
+            }
+            else
+                (current, remaining) = _path.SplitFirst("/");
+
             Folder folder = _folders.FirstOrDefault(x => x.Name == current);
             if (folder == null)
             {
@@ -139,7 +147,7 @@ namespace Iconi.Desktop.Data.Library
                 _folders.Add(folder);
             }
 
-            if (remaining.Contains("/") && (Depth == 0 || _depth < Depth))
+            if (!string.IsNullOrEmpty(remaining))
                 return getOrCreateFolder(folder.Folders, remaining, _depth + 1);
             return folder;
         }

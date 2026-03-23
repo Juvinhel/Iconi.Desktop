@@ -136,7 +136,7 @@ namespace Iconi.Desktop.UI
             Builder builder = new Builder(libraryFolderHeader.FolderPath, true,
                  Config.Current.Library.FolderExclusions.Select(javascriptRegexToCSharp),
                  Config.Current.Library.TagExclusions.Select(javascriptRegexToCSharp),
-                 2,
+                 Config.Current.Library.MaxDepth,
                  cancellationToken.Token);
             ProgressJob buildJob = builder.Run();
             ProgressDialog progressDialog = new ProgressDialog("Building Library", buildJob, cancellationToken);
