@@ -46,5 +46,8 @@ namespace Iconi.Desktop.Data
 
         [JsonProperty("max-depth")]
         public int MaxDepth { get; set; } = 2;
+
+        [JsonProperty("common-tags", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        public IList<string> CommonTags { get; set; } = new List<string>() { "achrome", "monochrome", "duochrome", "polychrome", "gradients" };
     }
 }

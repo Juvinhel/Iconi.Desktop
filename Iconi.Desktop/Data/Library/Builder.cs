@@ -10,6 +10,7 @@ using Lemon.Text;
 using Lemon.Threading;
 using Newtonsoft.Json;
 using SVGColorExtractor.Data;
+using SVGColorExtractor.UI;
 
 namespace Iconi.Desktop.Data.Library
 {
@@ -127,9 +128,15 @@ namespace Iconi.Desktop.Data.Library
                 return; // file already exists, skip
 
             List<string> tags = parseTags(path + "/" + fileName).ToList();
-            Chroma chroma = svgColorExtractorWindow.Analyze(_filePath).Await();
-            if (chroma != Chroma.Unknown) tags.Add(chroma.ToString().ToLower());
             tags.Add(extension);
+            AnalyzeResult analyzeResult = svgColorExtractorWindow.Analyze(_filePath).Await();
+            if(analyzeResult != null)
+            {
+                if(analyzeResult.ContainsGradiants)
+                    tags.Add("gradients");
+                else if(analyzeResult.Chroma != Chroma.Unknown)
+                    tags.Add(analyzeResult.Chroma.ToString().ToLower());
+            }
 
             File file = new File();
             file.Url = Url.Parse(BaseUrl).Append(url).ToString().TrimStart("/");
