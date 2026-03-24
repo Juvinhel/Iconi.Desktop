@@ -132,7 +132,7 @@ namespace Iconi.Desktop.Data.Library
             AnalyzeResult analyzeResult = svgColorExtractorWindow.Analyze(_filePath).Await();
             if(analyzeResult != null)
             {
-                if(analyzeResult.ContainsGradiants)
+                if(analyzeResult.ContainsGradients)
                     tags.Add("gradients");
                 else if(analyzeResult.Chroma != Chroma.Unknown)
                     tags.Add(analyzeResult.Chroma.ToString().ToLower());
