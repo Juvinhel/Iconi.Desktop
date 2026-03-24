@@ -46,6 +46,7 @@
     <mahapps:MetroWindow.RightWindowCommands>
         <mahapps:WindowCommands ShowLastSeparator="False" ShowSeparators="False">
             <celestial.components:ErrorWindowButton />
+            <celestial.components:InfoWindowButton />
         </mahapps:WindowCommands>
     </mahapps:MetroWindow.RightWindowCommands>
     <Grid x:Name="mainGrid">
