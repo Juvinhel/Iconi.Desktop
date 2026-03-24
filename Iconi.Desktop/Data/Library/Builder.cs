@@ -15,14 +15,35 @@ namespace Iconi.Desktop.Data.Library
 {
     sealed public class Builder
     {
-        public Builder(string _rootFolderPath, bool _update, IEnumerable<Regex> _folderExclusions, IEnumerable<Regex> _tagExclusions, int _maxDepth, CancellationToken _cancellationToken = default)
+        public Builder(string _rootFolderPath, bool _update, LibraryConfig _libraryConfig, CancellationToken _cancellationToken = default)
         {
             RootFolderPath = _rootFolderPath;
             Update = _update;
-            FolderExclusions = _folderExclusions.ToList().AsReadOnly();
-            TagExclusions = _tagExclusions.ToList().AsReadOnly();
-            MaxDepth = _maxDepth;
             CancellationToken = _cancellationToken;
+            loadLibraryConfig(_libraryConfig);
+        }
+
+        private void loadLibraryConfig(LibraryConfig _libraryConfig)
+        {
+            BaseUrl = _libraryConfig.Url;   
+            FolderExclusions = _libraryConfig.FolderExclusions.Select(javascriptRegexToCSharp).ToList().AsReadOnly();
+            TagExclusions = _libraryConfig.TagExclusions.Select(javascriptRegexToCSharp).ToList().AsReadOnly();
+            MaxDepth = _libraryConfig.MaxDepth;
+        }
+
+        private Regex javascriptRegexToCSharp(string _pattern)
+        {
+            if (!_pattern.StartsWith("/")) return new Regex("^" + Regex.Escape(_pattern) + "$");
+
+            string pattern = _pattern.Substring(1).SplitLast('/').first;
+            string modifiers = _pattern.SplitLast('/').last?.ToLower() ?? "";
+
+            RegexOptions options = RegexOptions.None;
+            if (modifiers.Contains("i")) options |= RegexOptions.IgnoreCase;
+            if (modifiers.Contains("m")) options |= RegexOptions.Multiline;
+            if (modifiers.Contains("s")) options |= RegexOptions.Singleline;
+
+            return new Regex(pattern, options);
         }
 
         private void initSVGColorExtractor()
@@ -46,6 +67,7 @@ namespace Iconi.Desktop.Data.Library
         public string RootFolderPath { get; private set; }
         public bool Update { get; private set; }
 
+        public string BaseUrl { get; private set; }
         public IReadOnlyList<Regex> FolderExclusions { get; private set; }
         public IReadOnlyList<Regex> TagExclusions { get; private set; } 
         public int MaxDepth { get; private set; }
@@ -110,7 +132,7 @@ namespace Iconi.Desktop.Data.Library
             tags.Add(extension);
 
             File file = new File();
-            file.Url = url;
+            file.Url = Url.Parse(BaseUrl).Append(url).ToString().TrimStart("/");
             file.Name = fileName;
             file.Extension = extension;
             file.Tags.AddRange(tags.Distinct());

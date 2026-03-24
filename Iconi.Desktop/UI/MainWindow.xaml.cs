@@ -118,7 +118,7 @@ namespace Iconi.Desktop.UI
 
         private (Stream file, string mimeType) resourceRequested(Url _url)
         {
-            if (_url.Path.StartsWith("library"))
+            if (_url.Path.StartsWith(Config.Current.Library.Url.TrimStart("/")))
                 return interceptLibrary(_url);
 
             if(_url.Path == "config.json")

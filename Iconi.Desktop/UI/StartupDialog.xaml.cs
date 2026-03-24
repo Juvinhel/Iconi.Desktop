@@ -133,11 +133,7 @@ namespace Iconi.Desktop.UI
         private void createLibraryButton_Click(object _sender, RoutedEventArgs _e)
         {
             CancellationTokenSource cancellationToken = new CancellationTokenSource();
-            Builder builder = new Builder(libraryFolderHeader.FolderPath, true,
-                 Config.Current.Library.FolderExclusions.Select(javascriptRegexToCSharp),
-                 Config.Current.Library.TagExclusions.Select(javascriptRegexToCSharp),
-                 Config.Current.Library.MaxDepth,
-                 cancellationToken.Token);
+            Builder builder = new Builder(libraryFolderHeader.FolderPath, true, Config.Current.Library, cancellationToken.Token);
             ProgressJob buildJob = builder.Run();
             ProgressDialog progressDialog = new ProgressDialog("Building Library", buildJob, cancellationToken);
             buildJob.Succeeded += (sender) =>
@@ -150,21 +146,6 @@ namespace Iconi.Desktop.UI
                 MessageBox.Show(exception.Message, exception.GetType().FullName);
             };
             buildJob.RunAwaitable();
-        }
-
-        private Regex javascriptRegexToCSharp(string _pattern)
-        {
-            if (!_pattern.StartsWith("/")) return new Regex("^" + Regex.Escape(_pattern) + "$");
-
-            string pattern = _pattern.Substring(1).SplitLast('/').first;
-            string modifiers = _pattern.SplitLast('/').last?.ToLower() ?? "";
-
-            RegexOptions options = RegexOptions.None;
-            if (modifiers.Contains("i")) options |= RegexOptions.IgnoreCase;
-            if (modifiers.Contains("m")) options |= RegexOptions.Multiline;
-            if (modifiers.Contains("s")) options |= RegexOptions.Singleline;
-
-            return new Regex(pattern, options);
         }
     }
 }
