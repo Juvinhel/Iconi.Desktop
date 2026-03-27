@@ -22,7 +22,7 @@ namespace Iconi.Desktop.Data
             DateTime published = releaseInfo.Property("published_at").Value.Value<DateTime>().ToLocalTime();
             bool prerelease = releaseInfo.Property("prerelease").Value.Value<bool>();   
 
-            List<ReleaseFile> files = new List<ReleaseInfo.ReleaseFile>();
+            List<ReleaseFile> files = new List<ReleaseFile>();
             foreach (JObject asset in releaseInfo.Property("assets").Value.Value<JArray>())
             {
                 string fileName = asset.Property("name").Value.Value<string>();
