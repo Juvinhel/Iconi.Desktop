@@ -168,7 +168,7 @@ namespace Iconi.Desktop.UI
 
                 return (mem, "text/html");
             }
-            else
+            else if (File.Exists(localPath))
             {
                 string extension = Path.GetExtension(localPath);
                 MemoryStream mem = new MemoryStream();
@@ -179,6 +179,8 @@ namespace Iconi.Desktop.UI
 
                 return (mem, mimeType);
             }
+            else
+                return (null, null);
         }
 
         private string createDirectoryListing(string _folderPath)
