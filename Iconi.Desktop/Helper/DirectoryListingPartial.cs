@@ -9,8 +9,12 @@ namespace Iconi.Desktop.Helper
     public partial class DirectoryListing
     {
         public string BaseUrl { get; set; }
-        public string RootFolderPath { get; set; }
-        public string FolderPath { get; set; }
+
+        private string rootFolderPath;
+        public string RootFolderPath { get { return rootFolderPath; } set { rootFolderPath = value?.TrimEnd("\\"); } }
+
+        private string folderPath;
+        public string FolderPath { get { return folderPath; } set { folderPath = value?.TrimEnd("\\"); } }
 
         public (string name, string path, long size, DateTime lastWriteTime) Self
         {
